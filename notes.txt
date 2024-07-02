@@ -1,0 +1,55 @@
+What weekly wrapped does:
+
+
+Gets most recently listened to song
+    track all spotify data in one class - spotipy api
+
+plugs it into excel sheet that records
+	artist
+	album
+	song
+	genre of song
+	album art
+	song duration
+	when it was listened
+
+	    There should be 3 pages within the google sheet.
+	        one that tracks all time stats
+	        one that tracks week by week, data older than a week is deleted from this sheet, but kept in the all time
+	        sheet that tracks only the genre listened to, so that email can give recommendations based off of genre pref that week
+
+	    use sheety api, make its own class.
+
+
+Excel sheet should then calculate total amount of minutes music was listened to that week.
+
+get top 5 songs listened to that week
+
+send email every monday about top 5 songs, and reccomend playlist based on recent listening
+
+                                                           Steps to take to complete goal:
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1. create class that handles all spotipy api requests.
+    a. Get recently listened to track
+    b. get the 	artist
+	            album
+                song
+                genre of song
+                album art
+                song duration
+                when it was listened
+
+2. create class that handles all Sheety api requests.
+    a. plug all the data mentioned above into its individual cells
+
+3. Using google sheets, automate email that holds all of the above data and send it to yourself every monday.
+    the reccomended playlist should have 30-50 songs ideally.
+
+
+                                                           Things i have thought to change:
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Right now, all the metrics i want are within the print method in track_songs.py.
+
+Create methods to grab each individual piece of data instead of mass printing it in one method
+to allow for easier plugins with SHEETY.
