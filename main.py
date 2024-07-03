@@ -13,6 +13,12 @@ def main():
     track_songs.get_recently_played_track_details()
     # track_songs.print_json_response()  # Print the entire JSON response
     track_songs.print_recently_played_track()
+    track_songs.print_recently_played_track_artist()
+    track_songs.print_recently_played_track_album()
+    track_songs.print_recently_played_track_album_art()
+    track_songs.print_recently_played_track_song_duration()
+    track_songs.print_recently_played_track_time_listened()
+    track_songs.print_recently_played_track_genre()
 
 
 if __name__ == "__main__":

@@ -40,17 +40,57 @@ class TrackSongs:
 
         for idx, item in enumerate(self.recent_tracks['items']):
             track = item['track']['name']
+            print(f"Track Played: {track}")
+
+    def print_recently_played_track_artist(self):
+        if self.recent_tracks is None:
+            raise Exception("No recently played tracks found, call get_recently_played_track_details()")
+
+        for idx, item in enumerate(self.recent_tracks['items']):
             artist = item['track']['artists'][0]['name']
+            print(f"Artist: {artist}")
+
+    def print_recently_played_track_album(self):
+        if self.recent_tracks is None:
+            raise Exception("No recently played tracks found, call get_recently_played_track_details()")
+
+        for idx, item in enumerate(self.recent_tracks['items']):
             album = item['track']['album']['name']
+            print(f"Album: {album}")
+
+    def print_recently_played_track_album_art(self):
+        if self.recent_tracks is None:
+            raise Exception("No recently played tracks found, call get_recently_played_track_details()")
+
+        for idx, item in enumerate(self.recent_tracks['items']):
             album_art = item['track']['album']['images'][0]
+            print(f"Album Art: {album_art}")
+
+    def print_recently_played_track_song_duration(self):
+        if self.recent_tracks is None:
+            raise Exception("No recently played tracks found, call get_recently_played_track_details()")
+
+        for idx, item in enumerate(self.recent_tracks['items']):
             song_duration = item['track']['duration_ms']
+            print(f"Song Duration in MS: {song_duration}")
+
+    def print_recently_played_track_time_listened(self):
+        if self.recent_tracks is None:
+            raise Exception("No recently played tracks found, call get_recently_played_track_details()")
+
+        for idx, item in enumerate(self.recent_tracks['items']):
             played_at = item['played_at']
+            print(f"Time/date song was played: {played_at}")
+
+    def print_recently_played_track_genre(self):
+        if self.recent_tracks is None:
+            raise Exception("No recently played tracks found, call get_recently_played_track_details()")
+
+        for idx, item in enumerate(self.recent_tracks['items']):
             artist_id = item['track']['artists'][0]['id']
             genres = self.get_genres_for_artist(artist_id)
             genres_str = ', '.join(genres)
-            print(
-                f"{idx + 1}. Track: {track} // Artist: {artist}// Album: {album}// time played:({played_at}) // album "
-                f"art: {album_art} // duration (ms): {song_duration} // Genre of Artist: {genres_str}")
+            print(f"Genre of artist: {genres_str}")
 
     def print_json_response(self):
         if self.recent_tracks is None:
