@@ -18,18 +18,12 @@ class TrackSongs:
         self.recent_tracks = None
 
     def authenticate_user(self):
-        """
-        Authenticate user with Spotify OAuth.
-        """
         self.sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=self.client_id,
                                                             client_secret=self.client_secret,
                                                             redirect_uri=self.redirect_url,
                                                             scope=self.scope))
 
     def get_recently_played_track_details(self):
-        """
-        Fetch the recently played track details.
-        """
         if self.sp is None:
             raise Exception("User not authenticated, call authenticate_user() method first.")
 
@@ -37,16 +31,10 @@ class TrackSongs:
         return self.recent_tracks
 
     def get_genres_for_artist(self, artist_id):
-        """
-        Get genres for a given artist.
-        """
         artist = self.sp.artist(artist_id)
         return artist['genres']
 
     def get_recent_track_detail(self, detail):
-        """
-        Generic method to fetch specific detail of the recently played track.
-        """
         if self.recent_tracks is None:
             raise Exception("No recently played tracks found, call get_recently_played_track_details() method first.")
 

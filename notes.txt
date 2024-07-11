@@ -62,3 +62,31 @@ into spreadsheet.
 Things to be done for tomorrow:
     Figure out how to create the other two sheets mentioned above, pretty sure something must be done
     within google sheets itself, doubt this is a pycharm thing.
+
+
+July10th:
+TBH kinda loafted. I did figure out that using github actions is the best way to get this automatede without
+having to pay for everything.
+    Things to be done tomorrow:
+        Actually host it on github actions
+        Figure out how to divide the spreadsheet into the sheets mentioned yesterday
+
+July 11th:
+Figured out that 25 minutes is not enough time for the spotify api to update the song listened to.
+Trying for 30 minutes now to see if that works.
+
+The way the spotify api updates, is that the song must be played TO COMPLETION.
+	once the song has played all the way through, it takes approx 15 seconds to register as listened.
+
+The plan:
+	right now, my code is structured to make it so if it was running continuously, the last_time_listened variable is stored Locally.
+	which means that when the code is run periodically with github actions, it wont remember the variable as it is refreshed on run time.
+
+	To get around this, i want to send a GET request to my spread sheet for the last time listened cell to return as a variable and then compare
+	the recent listened to song with this time.
+		If time is the same:
+			disregard input and dont push to spreadsheet
+		else time is different:
+			push data to spread sheet
+			
+

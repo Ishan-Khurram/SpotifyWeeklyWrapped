@@ -51,10 +51,10 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="CLIENT_ID" value="33d00bfd9ac543cd95cd347eba9c8207" />
         <env name="CLIENT_SECRET_KEY" value="ef1cbc2b9cfc4f48b789a66ca4a8f905" />
-        <env name="SHEETY_ENDPOINT" value="https://api.sheety.co/b23eae0f5883f25642e9f897747056a0/vibify/sheet1" />
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="SHEETY_ENDPOINT" value="https://api.sheety.co/b23eae0f5883f25642e9f897747056a0/vibify/main" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />

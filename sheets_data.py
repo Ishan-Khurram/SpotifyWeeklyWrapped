@@ -17,13 +17,27 @@ class SheetsData:
     def api_info(self, endpoint):
         self.endpoint = endpoint
 
+    def get_recently_listened_time(self):
+        if not self.endpoint:
+            return False, "Endpoint not specified, use api_info() method to continue."
+
+        response = requests.get(url=self.endpoint)
+
+        data = response.json()
+
+        # print("response.status_code =", response.status_code)
+        # print("response.text= ", response.text)
+
+        last_element = data['main'][-1]
+        time_listened = last_element['timeListened']
+        return time_listened
+
     def push_data_to_spreadsheet(self):
         if not self.endpoint:
             return False, "Endpoint not specified, use api_info() method to continue."
 
-
-# title names for sheet columns MUST be camelCased when using them here
-# or the data won't be posted
+        # title names for sheet columns MUST be camelCased when using them here
+        # or the data won't be posted
         data = {
             "main": {
                 "song": self.song,
@@ -36,18 +50,11 @@ class SheetsData:
             }
         }
 
-        print("Data being sent:", data)
-        print("Endpoint URL:", self.endpoint)
-
         headers = {
             "Content-Type": "application/json"
         }
 
         response = requests.post(url=self.endpoint, json=data, headers=headers)
-
-        print("Response status code:", response.status_code)
-        print("Response headers:", response.headers)
-        print("Response content:", response.text)
 
         if response.status_code == 200:
             return True, print("Data successfully pushed to the spreadsheet")
