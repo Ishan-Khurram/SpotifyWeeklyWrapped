@@ -67,15 +67,17 @@ Things to be done for tomorrow:
 July10th:
 TBH kinda loafted. I did figure out that using github actions is the best way to get this automatede without
 having to pay for everything.
+Figured out that 25 minutes is not enough time for the spotify api to update the song listened to.
+Trying for 30 minutes now to see if that works.
+
     Things to be done tomorrow:
         Actually host it on github actions
         Figure out how to divide the spreadsheet into the sheets mentioned yesterday
 
 July 11th:
-Figured out that 25 minutes is not enough time for the spotify api to update the song listened to.
-Trying for 30 minutes now to see if that works.
-
-The way the spotify api updates, is that the song must be played TO COMPLETION.
+I was wrong in yesterdays notes. The way the spotify api updates, is that the song must be played TO COMPLETION.
+the initial thought was that after the song played for 30 seconds, it would be considered a stream, like it is for artists.
+It seems that the api made available for my use case, updates on completion of a track/song.
 	once the song has played all the way through, it takes approx 15 seconds to register as listened.
 
 The plan:
@@ -88,5 +90,26 @@ The plan:
 			disregard input and dont push to spreadsheet
 		else time is different:
 			push data to spread sheet
-			
+
+Added a method within sheets_data.py that sends a get request for the last time a song was listened to, and compares it with the track the script is
+trying to push.
+	the if statement above is exactly how this works in the main file.
+
+The bot will be running every 4 minutes because github actions does not allow for increments lower than minutes in the YML file.
+
+NOTICE:
+	turns out the sheety api stiffed me. Next time, read the benefits of each tier lol.
+		sheety only allows for 200 requests a month... i hit that in a day. Looking for alternatives now, most likely going to switch to the
+		Google sheets api and rewrite the sheets_data.py class to use that instead.
+
+
+July 12th:
+
+Using Google's Google sheets API starting from today. Need to learn how to use it.
+	tutorial for getting sheet data seems easy enough, going to have to essentially restart my sheets_data.py class.
+	## google-sheets-api-key=AIzaSyCrgLLK4EXUgeHi_cr3ssKDP8II3g9dkB4
+
+Did kind of loaft today, however i spent majority of time learning about the Google Sheets API and how to start the authentication process. S
+Started a new project that basically shows me how to start off the class and go about plugging in data from there.
+
 

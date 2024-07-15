@@ -1,6 +1,13 @@
+import os
+import datetime
+import time
+import logging
 from track_songs import TrackSongs
 from sheets_data import SheetsData
-import time
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s',
+                    handlers=[logging.StreamHandler(), logging.FileHandler('debug.log')])
 
 
 def main():
@@ -15,16 +22,20 @@ def main():
     track_songs = TrackSongs(client_id, client_secret, redirect_url, scope, limit)
     track_songs.authenticate_user()
 
+    # Getting env variables and other variables needed for google sheets API
+    SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+    SERVICE_ACCOUNT_FILE = "credentials.json"
+    SPREADSHEET_ID = os.getenv("SPREADSHEET_ID")
+    RANGE = os.getenv("RANGE_NAME")
+
     while True:
         try:
-            # Initialize SheetsData class with dummy values
-            sheets_data = SheetsData("", "", "", "", "", "", "")
-            sheety_endpoint = "https://api.sheety.co/b23eae0f5883f25642e9f897747056a0/vibify/main"
-            sheets_data.api_info(endpoint=sheety_endpoint)
+            # Get last time listened
+            sheets_data = SheetsData("", "", "", "", "", "", "", "", SERVICE_ACCOUNT_FILE, SPREADSHEET_ID, RANGE)
+            last_time_listened = sheets_data.get_recently_listened_to_time()
+            print(last_time_listened)
 
-            # Get the last time listened from the Google Sheet
-            last_time_listened = sheets_data.get_recently_listened_time()
-
+            # Get all track of last track details
             track_songs.get_recently_played_track_details()
 
             track_details = {
@@ -36,41 +47,44 @@ def main():
                 "duration": track_songs.print_recently_played_track_song_duration(),
                 "time_listened": track_songs.print_recently_played_track_time_listened()
             }
+            print(track_details["time_listened"])
 
             # Check if the time listened is different before updating
-            if track_details["time_listened"] != last_time_listened:
-                print("New track detected, updating spreadsheet.")  # Debugging output
+            if last_time_listened != track_details["time_listened"]:
+                logging.info("New track detected, updating spreadsheet.")  # Debugging output
 
-                # Initialize SheetsData class with actual track details
+                # Input actual data
                 sheets_data = SheetsData(
-                    track_details["track"],
-                    track_details["artist"],
-                    track_details["album"],
-                    track_details["album_art"],
-                    track_details["genre"],
-                    track_details["duration"],
-                    track_details["time_listened"]
+                    song=track_details["track"],
+                    artist=track_details["artist"],
+                    album=track_details["album"],
+                    album_art=track_details["album_art"],
+                    genre=track_details["genre"],
+                    song_duration=track_details["duration"],
+                    time_listened=track_details["time_listened"],
+                    scopes=SCOPES,
+                    service_account_file=SERVICE_ACCOUNT_FILE,
+                    spreadsheet_id=SPREADSHEET_ID,
+                    sheets_range=RANGE
                 )
-                sheets_data.api_info(endpoint=sheety_endpoint)
 
-                # Post data to the spreadsheet
-                sheets_data.push_data_to_spreadsheet()
+                sheets = sheets_data.authenticate_sheets()
+
+                result = sheets.values().get(spreadsheetId=SPREADSHEET_ID, range=RANGE).execute()
+                values = result.get('values', [])
+
+                if not values:
+                    logging.info("No Data Found")
+                else:
+                    logging.info(f"Last row: {values[-1]}")  # to print last value only
+                    sheets_data.append_values(sheets)
             else:
-                print("No new track, no update needed.")  # Debugging output
-
+                print("No new track, update not needed.")
         except Exception as e:
-            print("An error occurred:", e)  # Debugging output
+            logging.error(f"An error occurred: {e}")  # Debugging output
 
-        # Sleep for 30 seconds before checking again
-            """
-            This will eventually be replaced with a yml (YAML) file 
-            to allow for periodic checking.
-            """
-        time.sleep(5)
-
-        """
-        
-        """
+        # Sleep for 120 seconds before checking again
+        time.sleep(120)
 
 
 if __name__ == "__main__":

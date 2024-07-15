@@ -1,10 +1,16 @@
-import requests
+import datetime
+import logging
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
 
 
 class SheetsData:
+    SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+    SERVICE_ACCOUNT_FILE = "credentials.json"
 
-    # initialize the skeleton so i can import all the needed data into main.py
-    def __init__(self, song, artist, album, album_art, genre, song_duration, time_listened):
+    # Initialize the skeleton so I can import all the needed data into main.py
+    def __init__(self, song, artist, album, album_art, genre, song_duration, time_listened, scopes,
+                 service_account_file, spreadsheet_id, sheets_range):
         self.song = song
         self.artist = artist
         self.album = album
@@ -12,51 +18,64 @@ class SheetsData:
         self.genre = genre
         self.song_duration = song_duration
         self.time_listened = time_listened
-        self.endpoint = None
+        self.spreadsheet_id = spreadsheet_id
+        self.service_account_file = service_account_file
+        self.scopes = scopes
+        self.range = sheets_range
 
-    def api_info(self, endpoint):
-        self.endpoint = endpoint
+    def authenticate_sheets(self):
+        """Authenticate and return the Google Sheets service."""
+        try:
+            credentials = service_account.Credentials.from_service_account_file(
+                self.service_account_file, scopes=self.scopes)
+            service = build('sheets', 'v4', credentials=credentials)
+            return service.spreadsheets()
+        except Exception as e:
+            logging.error(f"Failed to authenticate sheets: {e}")
+            raise
 
-    def get_recently_listened_time(self):
-        if not self.endpoint:
-            return False, "Endpoint not specified, use api_info() method to continue."
+    def get_recently_listened_to_time(self):
+        # Get spreadsheet data, only the last row's recently listened to time
+        try:
+            sheets = self.authenticate_sheets()
+            result = sheets.values().get(spreadsheetId=self.spreadsheet_id, range=self.range).execute()
+            values = result.get('values', [])
+            if not values:
+                logging.info("No data found in the specified range.")
+                return None
+            last_time = values[-1][-1]
+            print(f"Last time listened: {last_time}")
+            return last_time
+        except Exception as e:
+            logging.error(f"Failed to fetch recently listened to time: {e}")
+            raise
 
-        response = requests.get(url=self.endpoint)
+    def append_values(self, authenticated_sheet):
+        """Update values in the Google Sheet."""
+        # Prepare the data to be input
+        try:
+            song = self.song
+            artist = self.artist
+            album = self.album
+            album_art = self.album_art
+            genre = self.genre
+            song_duration = self.song_duration
+            time_listened = self.time_listened
 
-        data = response.json()
+            # Define the range and values to be updated
+            range_ = self.range  # Use the range provided during initialization
+            values = [[song, artist, album, album_art, genre, song_duration, time_listened]]
 
-        # print("response.status_code =", response.status_code)
-        # print("response.text= ", response.text)
-
-        last_element = data['main'][-1]
-        time_listened = last_element['timeListened']
-        return time_listened
-
-    def push_data_to_spreadsheet(self):
-        if not self.endpoint:
-            return False, "Endpoint not specified, use api_info() method to continue."
-
-        # title names for sheet columns MUST be camelCased when using them here
-        # or the data won't be posted
-        data = {
-            "main": {
-                "song": self.song,
-                "artist": self.artist,
-                "album": self.album,
-                "albumArt": self.album_art,
-                "genre": self.genre,
-                "songDuration": self.song_duration,
-                "timeListened": self.time_listened,
+            body = {
+                'values': values
             }
-        }
 
-        headers = {
-            "Content-Type": "application/json"
-        }
+            # Send the request to update the values
+            result = authenticated_sheet.values().append(
+                spreadsheetId=self.spreadsheet_id, range=range_,
+                valueInputOption='RAW', body=body).execute()
 
-        response = requests.post(url=self.endpoint, json=data, headers=headers)
-
-        if response.status_code == 200:
-            return True, print("Data successfully pushed to the spreadsheet")
-        else:
-            return False, print(f"Failed to push data. Status code: {response.status_code}, Response: {response.text}")
+            print(f"{result.get('updates').get('updatedCells')} cells updated.")
+        except Exception as e:
+            logging.error(f"Failed to append values: {e}")
+            raise
