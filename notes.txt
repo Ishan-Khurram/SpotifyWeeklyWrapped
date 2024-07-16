@@ -16,6 +16,7 @@ plugs it into Excel sheet that records
 	    There should be 3 pages within the Google sheet.
 	        one that tracks all-time stats - done!
 	        one that tracks week by week, data older than a week is deleted from this sheet, but kept in the all-time
+	        top songs
 	        sheet that tracks only the genre listened to, so that email can give recommendations based off of genre pref that week
 
 	    use sheety api, make its own class.
@@ -111,5 +112,27 @@ Using Google's Google sheets API starting from today. Need to learn how to use i
 
 Did kind of loaft today, however i spent majority of time learning about the Google Sheets API and how to start the authentication process. S
 Started a new project that basically shows me how to start off the class and go about plugging in data from there.
+
+July 13-14th:
+
+The google API has been integrated into the project and is working well. I followed the steps on the google sheets api docs and got to the endpoint
+of this issue.
+However, some things i just dont grasp fully. OAuth2 being one of them. The concept is shaky to me and not sure how to integrate it without severe help from docs
+the track_songs.py class is an easy understanding for me, however the auth_sheets method in sheets_data and some other parts of that class
+are outside my knowledge scope as of now.
+
+Tomorrow (July15th) I will spend majority of day learning about the issues i had, as well as setting up the server so this script can run continuously.
+
+
+July15th:
+
+Made a new sheet in the Vibify google sheet for past week data.
+	This will hold all data for any days, previous given week.
+	There is a script that runs everyday, to weed out anything older than a week old.
+	This script is using the apps script on google sheets, written in javascript, it is a simple script to follow. No issues on understanding it there.
+
+Learned that google has its own AI called gemini, and its api tokens are free. I will not be using ChatGPT, Gemini will be writing my future emails for me.
+I have not really looked into python email apis yet, but i doubt that will be hard to find.
+
 
 

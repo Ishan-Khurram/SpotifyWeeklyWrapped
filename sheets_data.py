@@ -5,8 +5,6 @@ from googleapiclient.discovery import build
 
 
 class SheetsData:
-    SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-    SERVICE_ACCOUNT_FILE = "credentials.json"
 
     # Initialize the skeleton so I can import all the needed data into main.py
     def __init__(self, song, artist, album, album_art, genre, song_duration, time_listened, scopes,
@@ -23,7 +21,7 @@ class SheetsData:
         self.scopes = scopes
         self.range = sheets_range
 
-    def authenticate_sheets(self):
+    def authenticate_sheets(self):  # dont know how this works at all. Got this from quick start guide
         """Authenticate and return the Google Sheets service."""
         try:
             credentials = service_account.Credentials.from_service_account_file(
@@ -39,7 +37,7 @@ class SheetsData:
         try:
             sheets = self.authenticate_sheets()
             result = sheets.values().get(spreadsheetId=self.spreadsheet_id, range=self.range).execute()
-            values = result.get('values', [])
+            values = result.get('values', [])  # parsing the json data and getting needed info
             if not values:
                 logging.info("No data found in the specified range.")
                 return None
@@ -67,7 +65,7 @@ class SheetsData:
             values = [[song, artist, album, album_art, genre, song_duration, time_listened]]
 
             body = {
-                'values': values
+                'values': values  # why is this needed?
             }
 
             # Send the request to update the values

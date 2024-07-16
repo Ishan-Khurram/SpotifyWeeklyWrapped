@@ -1,4 +1,3 @@
-import json
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -8,7 +7,7 @@ class TrackSongs:
     Class to handle Spotify track operations using Spotipy.
     """
 
-    def __init__(self, client_id, client_secret, redirect_url, scope, limit=25):
+    def __init__(self, client_id, client_secret, redirect_url, scope, limit):
         self.client_id = client_id
         self.client_secret = client_secret
         self.redirect_url = redirect_url
@@ -20,7 +19,7 @@ class TrackSongs:
     def authenticate_user(self):
         self.sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=self.client_id,
                                                             client_secret=self.client_secret,
-                                                            redirect_uri=self.redirect_url,
+                                                            redirect_uri=self.redirect_url, # not sure what URI actually is
                                                             scope=self.scope))
 
     def get_recently_played_track_details(self):
