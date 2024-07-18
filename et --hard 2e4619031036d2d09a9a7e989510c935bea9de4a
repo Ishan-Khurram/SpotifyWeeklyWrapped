@@ -1,0 +1,53 @@
+[33mcommit 2ac92fa3a7c5945e901f706134443a12b3e42933[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: Ishan Khurram <mo.ishan.khurram@gmail.com>
+Date:   Thu Jul 18 11:44:26 2024 -0400
+
+    Pushing this before making Genre changes, genre is listed as 'Gen z singer-song writer for Laufey, if it defaults to that, im making it write down new gen jazz/classical'
+
+[33mcommit 2e4619031036d2d09a9a7e989510c935bea9de4a[m
+Author: Ishan Khurram <mo.ishan.khurram@gmail.com>
+Date:   Tue Jul 16 13:21:15 2024 -0400
+
+    Added a requirements.txt file
+
+[33mcommit 8150e7312362c1ef8112dc157a29c7dfe33eff45[m
+Author: Ishan Khurram <mo.ishan.khurram@gmail.com>
+Date:   Mon Jul 15 21:11:27 2024 -0400
+
+    Working script, Gemini API integration next.
+
+[33mcommit 676a363994655ca46da652b4fb518d0773d73a69[m
+Author: Ishan Khurram <mo.ishan.khurram@gmail.com>
+Date:   Mon Jul 15 00:14:53 2024 -0400
+
+    Same as before, just added a gitignore to ensure cred.json isnt pushed as well.
+
+[33mcommit e1c118d39445cee0668de94f6d7223456793847f[m
+Author: Ishan Khurram <mo.ishan.khurram@gmail.com>
+Date:   Mon Jul 15 00:10:38 2024 -0400
+
+    Data being pulled from spotify API and appeneded to the google sheet
+
+[33mcommit 4cd218c723f6f46b0dcd324780ec1945306f3e58[m
+Author: Ishan Khurram <mo.ishan.khurram@gmail.com>
+Date:   Thu Jul 11 15:54:26 2024 -0400
+
+    Script now compares previous listened to times with current to mitigate duplicate entries.
+
+[33mcommit 0c8381cbd8efe5ef2ee4096affb805f9d8fec350[m
+Author: Ishan Khurram <mo.ishan.khurram@gmail.com>
+Date:   Wed Jul 10 21:25:17 2024 -0400
+
+    Now working whenever script is run, automate next.
+
+[33mcommit 7b9333f698465073d891e08dc1fff7129fe0c1c8[m
+Author: Ishan Khurram <mo.ishan.khurram@gmail.com>
+Date:   Tue Jul 2 23:19:06 2024 -0400
+
+    Split track_songs.py into smaller methods.
+
+[33mcommit e8db126d55e899b0b2cb3cd22d9429b42e1491f8[m
+Author: Ishan Khurram <mo.ishan.khurram@gmail.com>
+Date:   Mon Jul 1 23:13:29 2024 -0400
+
+    Initial commit
