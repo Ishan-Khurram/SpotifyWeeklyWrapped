@@ -41,7 +41,8 @@ class SheetsData:
             if not values:
                 logging.info("No data found in the specified range.")
                 return None
-            last_time = values[-1][-1]
+            print(values[-1])
+            last_time = values[-1][6]
             print(f"Last time listened: {last_time}")
             return last_time
         except Exception as e:
@@ -60,12 +61,16 @@ class SheetsData:
             song_duration = self.song_duration
             time_listened = self.time_listened
 
+            # Check if the genre needs to be replaced
+            if genre == "gen z singer-songwriter":
+                genre = "New Gen Classic/Jazz"
+
             # Define the range and values to be updated
             range_ = self.range  # Use the range provided during initialization
             values = [[song, artist, album, album_art, genre, song_duration, time_listened]]
 
             body = {
-                'values': values  # why is this needed?
+                'values': values
             }
 
             # Send the request to update the values

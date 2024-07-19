@@ -135,4 +135,18 @@ Learned that google has its own AI called gemini, and its api tokens are free. I
 I have not really looked into python email apis yet, but i doubt that will be hard to find.
 
 
+July 18th:
+
+	All sheets pages are set up.
+		Main: Houses everything
+		pastWeek: Houses everything for todays given past week.
+		topGenresOfWeek: does as it says, gives number of plays per genre.
+		topTracksOfWeek: Does as it says, gives listening minutes, and number of plays.
+		topArtistsOfWeek: Does as it says, Gives listening minutes, and number of plays.
+
+All that is left now:
+	Integrate Google Gemini so i get weekly updates sent via Email.
+	Maybe integrate something that sends me a text message when and if the bot goes down?
+
+
 
