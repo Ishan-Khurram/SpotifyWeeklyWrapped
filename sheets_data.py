@@ -1,4 +1,3 @@
-import datetime
 import logging
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -41,9 +40,7 @@ class SheetsData:
             if not values:
                 logging.info("No data found in the specified range.")
                 return None
-            print(values[-1])
             last_time = values[-1][6]
-            print(f"Last time listened: {last_time}")
             return last_time
         except Exception as e:
             logging.error(f"Failed to fetch recently listened to time: {e}")
@@ -63,7 +60,6 @@ class SheetsData:
             while counter <= 5:
                 top_album_art.append(values[counter][-1])
                 counter += 1
-            print(top_album_art)
             return top_album_art
         except Exception as e:
             logging.error(f"Failed to fetch top tracks: {e}")
@@ -83,7 +79,6 @@ class SheetsData:
             while counter <= 5:
                 top_tracks_streams.append(values[counter][3])
                 counter += 1
-            print(top_tracks_streams)
             return top_tracks_streams
         except Exception as e:
             logging.error(f"Failed to fetch top tracks: {e}")
@@ -104,8 +99,27 @@ class SheetsData:
             while counter <= 5:
                 top_songs.append(values[counter][0])
                 counter += 1
-            print(top_songs)
             return top_songs
+        except Exception as e:
+            logging.error(f"Failed to fetch top tracks: {e}")
+            raise
+
+    def get_artists_attributed_to_top_tracks(self):
+        # Get spreadsheet data, only the last row's recently listened to time
+        try:
+            sheets = self.authenticate_sheets()
+            result = sheets.values().get(spreadsheetId=self.spreadsheet_id, range="topTracksOfWeek").execute()
+            values = result.get('values', [])  # parsing the json data and getting needed info
+
+            if not values:
+                logging.info("No data found in the specified range.")
+                return None
+            top_artists_of_tracks = []
+            counter = 1
+            while counter <= 5:
+                top_artists_of_tracks.append(values[counter][1])
+                counter += 1
+            return top_artists_of_tracks
         except Exception as e:
             logging.error(f"Failed to fetch top tracks: {e}")
             raise
@@ -125,7 +139,6 @@ class SheetsData:
             while counter <= 5:
                 top_artists.append(values[counter][0])
                 counter += 1
-            print(top_artists)
             return top_artists
         except Exception as e:
             logging.error(f"Failed to fetch top artists: {e}")
@@ -146,7 +159,6 @@ class SheetsData:
             while counter <= 5:
                 listening_minutes.append(values[counter][1])
                 counter += 1
-            print(listening_minutes)
             return listening_minutes
         except Exception as e:
             logging.error(f"Failed to fetch top artists: {e}")

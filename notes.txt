@@ -148,5 +148,22 @@ All that is left now:
 	Integrate Google Gemini so i get weekly updates sent via Email.
 	Maybe integrate something that sends me a text message when and if the bot goes down?
 
+July 19th:
+	Gemini API key has been made, and i am now starting the final parts of the project.
+
+	What should the AI class do?
+		Generate a prompt in which it returns a paragraph about my recent listening habits. It then shows me my top 5 tracks, with the album art
+		next to them, tells me my top 5 genres, and my top 3 artists. It will then reccomend a few artists for me.
+
+	This is more so for the track_songs.py class.
+		When the email is sent out, i want a new playlist added to my spotify library that contains 50 songs.
+
+
+	Gemini API has been made. Everything works how i want it to now. Gemini outputs me the content of an Email with the name "Melody."
+
+	The email formats everything how i want it, only thing left is to have the email actually be sent out, and add a method to track_songs.py
+	that creates the playlist. Playlist should be named "Melody's Mix".
+
+
 
 
