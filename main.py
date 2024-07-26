@@ -13,13 +13,16 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(mes
 
 
 # Helper function to format the email content
-def format_email_content(top5_tracks, artists_attributed_to_top_tracks, top5_streams, top5_album_arts, top5_artists,
+def format_email_content(filtered_intro, top5_tracks, artists_attributed_to_top_tracks, top5_streams, top5_album_arts,
+                         top5_artists,
                          top5_listening_minutes_per_artist, top_genres, recommendations):
     recommendations_html = ""
     for rec in recommendations['recommendations']:
         recommendations_html += f'<h2>{rec["artist"]}</h2>'
         for similar_artist in rec['similar_artists']:
             recommendations_html += f'<p><strong>{similar_artist["name"]}</strong> - {similar_artist["blurb"]}</p>'
+
+    # Helper function to format the email header
 
     return f"""
     <html>
@@ -84,7 +87,7 @@ def format_email_content(top5_tracks, artists_attributed_to_top_tracks, top5_str
         <hr>
         <div class="container">
             <h1>Hey Ishan!</h1>
-            <p>Melody here, your personal music assistant, ready to break down your listening habits this week. It's been a mix of heavy-hitting rock, smooth jazz, and some killer hip hop beats! Let's dive in.</p>
+            <h4>{filtered_intro}</h4>
             <h2>Your Top Tracks This Week</h2>
             {''.join([f'<div class="track"><p><strong>{i + 1}. {track}</strong> by {artist} [Streams: {stream}]</p><img src="{album_art}" alt="Album Art"></div>' for i, (track, artist, stream, album_art) in enumerate(zip(top5_tracks, artists_attributed_to_top_tracks, top5_streams, top5_album_arts))])}
             <h2>Your Top Artists This Week</h2>
@@ -107,7 +110,7 @@ def main():
     client_id = "33d00bfd9ac543cd95cd347eba9c8207"
     client_secret = os.getenv("SPOTIFY_SECRET")
     redirect_url = 'http://localhost:3000'
-    scope = "user-read-recently-played"
+    scope = 'user-library-read playlist-modify-public user-top-read user-read-recently-played'
     limit = 1
 
     track_songs = TrackSongs(client_id, client_secret, redirect_url, scope, limit)
@@ -143,40 +146,52 @@ def main():
     prompt_for_recommended_artists = (f"Given the following top 5 artists for the week, recommend 3 similar artists "
                                       f"for each and include a song by each recommended artist along with a short "
                                       f"blurb explaining why I might like them. My top 5 Artists for the week are: "
-                                      f"{top5_artists} Output all this data into a JSON format so that Ishan can easily parse through it.")
+                                      f"{top5_artists} Output all this data into a JSON format so that Ishan can "
+                                      f"easily parse through it.")
+
+    prompt_for_intro = {
+        f"Your name is Melody, and you are my personal music assistant. Given these Genres: {top_genres}, i want you to respond with a hearty hello, and talk about my music habits for the week, before saying that we are going to be 'diving into the analytics.'"}
 
     gemini = Gemini()
     response_dict = gemini.generate_and_extract(prompt)
 
-    today = datetime.datetime.now()
+    # intro
+    intro = gemini.generate_and_extract(prompt_for_intro)
+    filtered_intro = intro["candidates"][0]["content"]["parts"][0]["text"]
 
-    if today.weekday() == 6:  # 6 means Sunday
-        email_text = response_dict["candidates"][0]["content"]["parts"][0]["text"]
-
-        subject, body = email_text.split("\n", 1)
-        subject = subject.replace("Subject: ", "").strip()
-        body = body.strip()
-
-        recommendations_response = gemini.generate_and_extract(prompt_for_recommended_artists)
-        recommendations = recommendations_response["candidates"][0]["content"]["parts"][0]["text"]
-        recommendations_as_json = recommendations.strip('```json```').strip()
-        parsed_data = json.loads(recommendations_as_json)
-
-        body = format_email_content(top5_tracks, artists_attributed_to_top_tracks, top5_streams, top5_album_arts,
-                                    top5_artists, top5_listening_minutes_per_artist, top_genres,
-                                    recommendations=parsed_data)
-
-        sender_email = os.getenv("MY_EMAIL")
-        receiver_email = os.getenv("MY_EMAIL")
-        password = os.getenv("APP_PASSWORD") # Use an app-specific password for better security
-
-        gemini.send_email(subject, body, sender_email, receiver_email, password)
-        print("Email sent successfully!")
-    else:
-        print("Today is not Sunday. Email not sent.")
+    last_sent_date = None
 
     while True:
         try:
+            today = datetime.date.today()
+            if today.weekday() == 2 and (
+                    last_sent_date is None or last_sent_date != today):  # 2 indicates Thursday
+                email_text = response_dict["candidates"][0]["content"]["parts"][0]["text"]
+
+                subject, body = email_text.split("\n", 1)
+                subject = subject.replace("Subject: ", "").strip()
+                body = body.strip()
+
+                recommendations_response = gemini.generate_and_extract(prompt_for_recommended_artists)
+                recommendations = recommendations_response["candidates"][0]["content"]["parts"][0]["text"]
+                recommendations_as_json = recommendations.strip('```json```').strip()
+                parsed_data = json.loads(recommendations_as_json)
+
+                body = format_email_content(filtered_intro, top5_tracks, artists_attributed_to_top_tracks, top5_streams,
+                                            top5_album_arts,
+                                            top5_artists, top5_listening_minutes_per_artist, top_genres,
+                                            recommendations=parsed_data)
+
+                sender_email = os.getenv("MY_EMAIL")
+                receiver_email = os.getenv("MY_EMAIL")
+                password = os.getenv("APP_PASSWORD")  # Use an app-specific password for better security
+
+                gemini.send_email(subject, body, sender_email, receiver_email, password)
+                print("Email sent successfully!")
+                last_sent_date = today
+                track_songs.melodys_playlist(playlist_name="Melody's Mix")
+            else:
+                print("Today is not Wednesday. Email not sent.")
             last_time_listened = sheets_data.get_recently_listened_to_time()
             track_songs.get_recently_played_track_details()
 

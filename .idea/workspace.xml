@@ -8,10 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.cache" beforeDir="false" afterPath="$PROJECT_DIR$/.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gemini_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/gemini_ai.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sheets_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/sheets_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/track_songs.py" beforeDir="false" afterPath="$PROJECT_DIR$/track_songs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,15 +38,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/Ishan/PycharmProjects/SpotifyWeeklyWrapped"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ishan/PycharmProjects/SpotifyWeeklyWrapped&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="SpotifyWeeklyWrapped" />
@@ -56,15 +54,15 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="APP_PASSWORD" value="&quot;uwcg pfjp hpqz yksz&quot;" />
+        <env name="APP_PASSWORD" value="uwcg pfjp hpqz yksz" />
         <env name="CLIENT_ID" value="33d00bfd9ac543cd95cd347eba9c8207" />
         <env name="CLIENT_SECRET_KEY" value="ef1cbc2b9cfc4f48b789a66ca4a8f905" />
         <env name="GEMINI_API_KEY" value="AIzaSyDSCOLQStVnoNoN67WGOCh7jpjMxrS6uWA" />
+        <env name="MY_EMAIL" value="ishan.khurram01@gmail.com" />
         <env name="PYTHONUNBUFFERED" value="1" />
         <env name="RANGE_NAME" value="main" />
         <env name="SPOTIFY_SECRET" value="3d7b94c17ff04f1283f094cb93632ac0" />
         <env name="SPREADSHEET_ID" value="1wgAo1Ck_NBNh-ZHeAd-z-C_7vjJUq8oSDipIH5NJJYQ" />
-        <env name="MY_EMAIL" value="&quot;ishan.khurram01@gmail.com&quot;" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -115,7 +113,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/track_songs.py</url>
-          <line>18</line>
+          <line>70</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
