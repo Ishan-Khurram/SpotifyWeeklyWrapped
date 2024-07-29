@@ -95,15 +95,12 @@ def format_email_content(filtered_intro, top5_tracks, artists_attributed_to_top_
             <h2>Your Top Genres This Week</h2>
             <p>{', '.join(top_genres)}</p>
             <h2>Artist Recommendations</h2>
-            <div class="recommendations">{recommendations_html}</div>
-            <h2>New Playlist For You!</h2>
-            <p>I've created a brand new playlist for you called "Melody's Mix" - I think you'll love it! Check it out in your library.</p>
-            <p>Happy listening!</p>
-            <p>Melody</p>
-        </div>
-    </body>
-    </html>
-    """
+            <div class="recommendations">{recommendations_html}</div> <h2>New Playlist For You!</h2> <h4>I've 
+            carefully woven together a symphony of your sonic preferences into a playlist I call "Your Tune, 
+            My Melody." It's a harmonious blend of your favorite notes, crafted with care to create a soundtrack that 
+            resonates with your soul. I've added it to your Spotify library, so you can find it anytime you want to 
+            escape into your own personal soundscape.</p> <p>Happy listening!</h4> <h4>Melody</h4> </div> </body> 
+            </html>"""
 
 
 def main():
@@ -170,7 +167,6 @@ def main():
 
                 subject, body = email_text.split("\n", 1)
                 subject = subject.replace("Subject: ", "").strip()
-                body = body.strip()
 
                 recommendations_response = gemini.generate_and_extract(prompt_for_recommended_artists)
                 recommendations = recommendations_response["candidates"][0]["content"]["parts"][0]["text"]
