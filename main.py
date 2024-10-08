@@ -8,8 +8,8 @@ import datetime
 from gemini_ai import Gemini
 
 # Configure logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s',
-                    handlers=[logging.StreamHandler(), logging.FileHandler('debug.log')])
+# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s',
+#                     handlers=[logging.StreamHandler(), logging.FileHandler('debug.log')])
 
 
 # Helper function to format the email content
